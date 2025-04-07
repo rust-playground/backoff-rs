@@ -98,7 +98,7 @@ impl Exponential {
     /// returns the calculated backoff duration for backoff and retries based on the attempt.
     pub fn duration(&self, attempt: usize) -> Duration {
         let nanoseconds = (self.factor.powi(attempt as i32) * self.interval
-            + rand::thread_rng().gen_range(0.0..=self.jitter)) as u64;
+            + rand::rng().random_range(0.0..=self.jitter)) as u64;
         match self.max {
             Some(max) if nanoseconds > max => Duration::from_nanos(max),
             _ => Duration::from_nanos(nanoseconds),
